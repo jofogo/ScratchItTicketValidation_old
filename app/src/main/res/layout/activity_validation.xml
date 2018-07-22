@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ValidationActivity">
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="320dp"
+        android:layout_height="240dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="176dp"
+        android:background="?android:attr/listDivider" />
+
+    <TextView
+        android:id="@+id/lblTicketCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/txtTicketCount"
+        android:layout_alignStart="@+id/txtTicketCode"
+        android:text="No. of Tickets:"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/txtTicketCount"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/divider"
+        android:layout_marginEnd="63dp"
+        android:editable="false"
+        android:ems="10"
+        android:enabled="false"
+        android:inputType="textPersonName"
+        android:text="0"
+        android:textAlignment="center" />
+
+    <EditText
+        android:id="@+id/txtTicketCode"
+        android:layout_width="257dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTicketCount"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Ticket code"
+        android:inputType="textPersonName"
+        android:textAlignment="center" />
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="320dp"
+        android:layout_height="59dp"
+        android:layout_below="@+id/txtTicketCode"
+        android:layout_centerHorizontal="true"
+        app:columnCount="3"
+        app:rowCount="1">
+
+        <ImageButton
+            android:id="@+id/btnAdd"
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:background="@color/button_inactive"
+            android:onClick="ticketAdd"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:layout_column="0"
+            app:layout_gravity="left|top"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_add" />
+
+        <ImageButton
+            android:id="@+id/btnUpload"
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:background="@color/button_inactive"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:layout_column="1"
+            app:layout_gravity="left|top"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_upload" />
+
+        <ImageButton
+            android:id="@+id/btnRemove"
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:background="@color/button_inactive"
+            android:onClick="ticketRemoveAll"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            app:layout_column="2"
+            app:layout_gravity="left|top"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_remove" />
+    </android.support.v7.widget.GridLayout>
+</RelativeLayout>
