@@ -113,11 +113,11 @@ public class ValidationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validation);
-        btnAdd = findViewById(R.id.btnAdd);
-        btnUpload = findViewById(R.id.btnUpload);
-        btnRemove = findViewById(R.id.btnRemove);
-        txtTicketCount = findViewById(R.id.txtTicketCount);
-        txtTicketCode = findViewById(R.id.txtTicketCode);
+        btnAdd = (ImageButton) findViewById(R.id.btnAdd);
+        btnUpload = (ImageButton) findViewById(R.id.btnUpload);
+        btnRemove = (ImageButton) findViewById(R.id.btnRemove);
+        txtTicketCount = (EditText) findViewById(R.id.txtTicketCount);
+        txtTicketCode = (EditText) findViewById(R.id.txtTicketCode);
         btnAdd.setEnabled(false);
         btnUpload.setEnabled(false);
         btnRemove.setEnabled(false);

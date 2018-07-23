@@ -107,9 +107,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         demoAddUsers();
-        txtUser = findViewById(R.id.txtUser);
-        txtPass = findViewById(R.id.txtPass);
-        btnLogin = findViewById(R.id.btnLogin);
+        txtUser = (EditText) findViewById(R.id.txtUser);
+        txtPass = (EditText) findViewById(R.id.txtPass);
+        btnLogin = (Button) findViewById(R.id.btnLogin);
         txtUser.requestFocus();
         txtPass.setEnabled(false);
         btnLogin.setEnabled(false);
