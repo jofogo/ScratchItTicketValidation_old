@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -19,9 +20,47 @@ public class MainActivity extends AppCompatActivity {
     EditText txtUser;
     EditText txtPass;
     Button btnLogin;
+    ImageButton btnMenu;
+    ImageButton btnAbout;
+    ImageButton btnSettings;
+    ImageButton btnLogout;
     Boolean userLoggedIn = false;
+    Boolean menuHidden = true;
     HashMap<String, String> credentials = new HashMap<String, String>();
 
+
+    public void menuPressed(View view) {
+        if (menuHidden) {
+            menuShow();
+            menuHidden=false;
+        } else {
+            menuHide();
+            menuHidden=true;
+        }
+
+    }
+
+    private void menuShow() {
+        int translationYBy = 100;
+        int duration = 100;
+        btnAbout.setVisibility(View.VISIBLE);
+        btnAbout.animate().translationYBy(translationYBy).setDuration(duration);
+        btnSettings.setVisibility(View.VISIBLE);
+        btnSettings.animate().translationYBy(translationYBy).setDuration(duration+50);
+        btnLogout.animate().translationYBy(translationYBy).setDuration(duration+100);
+        //btnLogout.setVisibility(View.VISIBLE);
+
+    }
+
+    private void menuHide(){
+        int translationYBy = -100;
+        btnAbout.setVisibility(View.INVISIBLE);
+        btnAbout.setTranslationY(translationYBy);
+        btnSettings.setVisibility(View.INVISIBLE);
+        btnSettings.setTranslationY(translationYBy);
+        btnLogout.setVisibility(View.INVISIBLE);
+        btnLogout.setTranslationY(translationYBy);
+    }
 
     private void credentialsAddUser (String user, String pass) {
         String userAddStatus = "";
@@ -110,6 +149,14 @@ public class MainActivity extends AppCompatActivity {
         txtUser = (EditText) findViewById(R.id.txtUser);
         txtPass = (EditText) findViewById(R.id.txtPass);
         btnLogin = (Button) findViewById(R.id.btnLogin);
+
+        btnMenu = (ImageButton) findViewById(R.id.btnMenu);
+        btnAbout = (ImageButton) findViewById(R.id.btnAbout);
+        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        btnLogout = (ImageButton) findViewById(R.id.btnLogout);
+
+        menuHide();
+
         txtUser.requestFocus();
         txtPass.setEnabled(false);
         btnLogin.setEnabled(false);
@@ -152,9 +199,11 @@ public class MainActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if (txtPass.getText().toString().equals("")) {
                     btnLogin.setEnabled(false);
+                    btnLogin.setTextColor(getResources().getColor(R.color.text_gray));
                     btnLogin.setBackgroundColor(getResources().getColor(R.color.button_inactive));
                 } else {
                     btnLogin.setEnabled(true);
+                    btnLogin.setTextColor(getResources().getColor(R.color.text_white));
                     btnLogin.setBackgroundColor(getResources().getColor(R.color.button_active));
                 }
             }

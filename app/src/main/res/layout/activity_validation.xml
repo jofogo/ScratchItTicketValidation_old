@@ -6,21 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".ValidationActivity">
 
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/menu_top"
+        app:columnCount="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:onClick="menuPressed"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            app:layout_column="3"
+            app:layout_gravity="center|right"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_menu" />
+
+        <ImageButton
+            android:id="@+id/btnAbout"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            app:layout_column="0"
+            app:layout_gravity="center|right"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_about" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            app:layout_column="1"
+            app:layout_gravity="right|center"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_settings" />
+
+        <ImageButton
+            android:id="@+id/btnLogout"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:onClick="userLogout"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            app:layout_column="2"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_logout" />
+    </android.support.v7.widget.GridLayout>
+
     <VideoView
         android:id="@+id/videoView"
-        android:layout_width="320dp"
+        android:layout_width="318dp"
         android:layout_height="240dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp" />
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginTop="40dp" />
 
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="176dp"
+        android:layout_below="@+id/videoView"
         android:background="?android:attr/listDivider" />
 
     <TextView
@@ -60,8 +123,9 @@
     <android.support.v7.widget.GridLayout
         android:layout_width="320dp"
         android:layout_height="59dp"
-        android:layout_below="@+id/txtTicketCode"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="8dp"
         app:columnCount="3"
         app:rowCount="1">
 
@@ -69,38 +133,38 @@
             android:id="@+id/btnAdd"
             android:layout_width="106dp"
             android:layout_height="wrap_content"
-            android:background="@color/button_inactive"
+            android:background="@android:color/transparent"
             android:onClick="ticketAdd"
-            android:padding="5dp"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             app:layout_column="0"
             app:layout_gravity="left|top"
             app:layout_row="0"
-            app:srcCompat="@drawable/ico_add" />
+            app:srcCompat="@drawable/ico_disabled_add" />
 
         <ImageButton
             android:id="@+id/btnUpload"
             android:layout_width="106dp"
             android:layout_height="wrap_content"
-            android:background="@color/button_inactive"
-            android:padding="5dp"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             app:layout_column="1"
             app:layout_gravity="left|top"
             app:layout_row="0"
-            app:srcCompat="@drawable/ico_upload" />
+            app:srcCompat="@drawable/ico_disabled_upload" />
 
         <ImageButton
             android:id="@+id/btnRemove"
             android:layout_width="106dp"
             android:layout_height="wrap_content"
-            android:background="@color/button_inactive"
+            android:background="@android:color/transparent"
             android:onClick="ticketRemoveAll"
-            android:padding="5dp"
+            android:padding="10dp"
             android:scaleType="fitCenter"
             app:layout_column="2"
             app:layout_gravity="left|top"
             app:layout_row="0"
-            app:srcCompat="@drawable/ico_remove" />
+            app:srcCompat="@drawable/ico_disabled_remove" />
     </android.support.v7.widget.GridLayout>
 </RelativeLayout>

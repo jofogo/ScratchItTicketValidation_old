@@ -22,8 +22,50 @@ public class ValidationActivity extends AppCompatActivity {
     ImageButton btnRemove;
     EditText txtTicketCount;
     EditText txtTicketCode;
+    ImageButton btnMenu;
+    ImageButton btnAbout;
+    ImageButton btnSettings;
+    ImageButton btnLogout;
+    Boolean menuHidden = true;
+
+
     ArrayList<String> ticketCodes = new ArrayList<String>();
     private final int ticketCodeLength = 10;
+
+    public void menuPressed(View view) {
+        if (menuHidden) {
+            menuShow();
+            menuHidden=false;
+        } else {
+            menuHide();
+            menuHidden=true;
+        }
+
+    }
+
+    private void menuShow() {
+        int translationYBy = 100;
+        int duration = 100;
+        btnAbout.setVisibility(View.VISIBLE);
+        btnAbout.animate().translationYBy(translationYBy).setDuration(duration);
+        btnSettings.setVisibility(View.VISIBLE);
+        btnSettings.animate().translationYBy(translationYBy).setDuration(duration+50);
+        btnLogout.animate().translationYBy(translationYBy).setDuration(duration+100);
+        btnLogout.setVisibility(View.VISIBLE);
+
+    }
+
+    private void menuHide(){
+        int translationYBy = -100;
+        btnAbout.setVisibility(View.INVISIBLE);
+        btnAbout.setTranslationY(translationYBy);
+        btnSettings.setVisibility(View.INVISIBLE);
+        btnSettings.setTranslationY(translationYBy);
+        btnLogout.setVisibility(View.INVISIBLE);
+        btnLogout.setTranslationY(translationYBy);
+    }
+
+
 
     public void ticketAdd(View view) {
         String ticketCode = txtTicketCode.getText().toString();
@@ -76,16 +118,7 @@ public class ValidationActivity extends AppCompatActivity {
 
     }
 
-    private void userLogout() {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-
-    }
-
-
-    @Override
-    public void onBackPressed() {
+    public void userLogout(View view) {
         new AlertDialog.Builder(this)
                 .setTitle("Logout")
                 .setMessage("Are you sure you want to log out?")
@@ -94,7 +127,9 @@ public class ValidationActivity extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                userLogout();
+                                Intent intent = new Intent(ValidationActivity.super.getBaseContext(), MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
                             }
                         }
                 )
@@ -107,6 +142,17 @@ public class ValidationActivity extends AppCompatActivity {
                             }
                         }
                 ).show();
+
+
+
+
+
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        userLogout(null);
     }
 
     @Override
@@ -118,6 +164,15 @@ public class ValidationActivity extends AppCompatActivity {
         btnRemove = (ImageButton) findViewById(R.id.btnRemove);
         txtTicketCount = (EditText) findViewById(R.id.txtTicketCount);
         txtTicketCode = (EditText) findViewById(R.id.txtTicketCode);
+
+        btnMenu = (ImageButton) findViewById(R.id.btnMenu);
+        btnAbout = (ImageButton) findViewById(R.id.btnAbout);
+        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
+        btnLogout = (ImageButton) findViewById(R.id.btnLogout);
+
+        menuHide();
+
+
         btnAdd.setEnabled(false);
         btnUpload.setEnabled(false);
         btnRemove.setEnabled(false);
@@ -132,10 +187,11 @@ public class ValidationActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (txtTicketCode.getText().toString().equals("")) {
                     btnAdd.setEnabled(false);
-                    btnAdd.setBackgroundColor(getResources().getColor(R.color.button_inactive));
+                    btnAdd.setImageResource(R.drawable.ico_disabled_add);
+
                 } else {
                     btnAdd.setEnabled(true);
-                    btnAdd.setBackgroundColor(getResources().getColor(R.color.button_active));
+                    btnAdd.setImageResource(R.drawable.ico_enabled_add);
                 }
             }
 
@@ -160,14 +216,16 @@ public class ValidationActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 if (txtTicketCount.getText().toString().equals("0")) {
                     btnUpload.setEnabled(false);
-                    btnUpload.setBackgroundColor(getResources().getColor(R.color.button_inactive));
+                    btnUpload.setImageResource(R.drawable.ico_disabled_upload);
                     btnRemove.setEnabled(false);
-                    btnRemove.setBackgroundColor(getResources().getColor(R.color.button_inactive));
+                    btnRemove.setImageResource(R.drawable.ico_disabled_remove);
+
                 } else {
                     btnUpload.setEnabled(true);
-                    btnUpload.setBackgroundColor(getResources().getColor(R.color.button_upload));
+                    btnUpload.setImageResource(R.drawable.ico_enabled_upload);
                     btnRemove.setEnabled(true);
-                    btnRemove.setBackgroundColor(getResources().getColor(R.color.button_remove));
+                    btnRemove.setImageResource(R.drawable.ico_enabled_remove);
+
                 }
             }
         });

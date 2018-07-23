@@ -4,17 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
+    android:background="?attr/colorBackgroundFloating"
     tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="61dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="64dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo_scratchit" />
@@ -26,11 +24,14 @@
         android:layout_marginBottom="117dp"
         android:layout_marginEnd="50dp"
         android:layout_marginStart="50dp"
+        android:layout_marginTop="16dp"
         app:columnCount="4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgLogo"
+        app:layout_constraintVertical_bias="0.4"
         app:rowCount="2">
 
         <ImageView
@@ -57,7 +58,7 @@
             app:layout_row="1"
             app:layout_rowSpan="1"
             app:layout_rowWeight="1"
-            app:srcCompat="@drawable/ico_key" />
+            app:srcCompat="@drawable/ico_pass" />
 
         <EditText
             android:id="@+id/txtPass"
@@ -95,18 +96,83 @@
 
     <Button
         android:id="@+id/btnLogin"
-        style="@style/Base.Widget.AppCompat.Button"
-        android:layout_width="0dp"
+        style="@style/RtlUnderlay.Widget.AppCompat.ActionButton"
+        android:layout_width="289dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
         android:layout_marginStart="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@color/button_inactive"
+        android:fontFamily="serif-monospace"
         android:onClick="checkForm"
-        android:text="Login"
 
+        android:text="Login"
+        android:textColor="@color/text_gray"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:background="@color/menu_top"
+        app:columnCount="4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:onClick="menuPressed"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            app:layout_column="3"
+            app:layout_gravity="center|right"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_menu" />
+
+        <ImageButton
+            android:id="@+id/btnAbout"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            app:layout_column="0"
+            app:layout_gravity="center|right"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_about" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            app:layout_column="1"
+            app:layout_gravity="right|center"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_settings" />
+
+        <ImageButton
+            android:id="@+id/btnLogout"
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:visibility="invisible"
+            app:layout_column="2"
+            app:layout_row="0"
+            app:srcCompat="@drawable/ico_logout" />
+    </android.support.v7.widget.GridLayout>
 
 </android.support.constraint.ConstraintLayout>
