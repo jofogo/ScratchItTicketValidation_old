@@ -118,34 +118,38 @@ public class ValidationActivity extends AppCompatActivity {
 
     }
 
+    private void logout() {
+        Intent intent = new Intent(ValidationActivity.super.getBaseContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
+
     public void userLogout(View view) {
-        new AlertDialog.Builder(this)
-                .setTitle("Logout")
-                .setMessage("Are you sure you want to log out?")
-                .setPositiveButton(
-                        "Yes",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(ValidationActivity.super.getBaseContext(), MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                startActivity(intent);
+        if (txtTicketCount.getText().toString().equals("0")) {
+            logout();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Logout")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton(
+                            "Yes",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    logout();
+                                }
                             }
-                        }
-                )
-                .setNegativeButton(
-                        "No",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
+                    )
+                    .setNegativeButton(
+                            "No",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
 
+                                }
                             }
-                        }
-                ).show();
-
-
-
-
+                    ).show();
+        }
 
     }
 
