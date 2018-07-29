@@ -2,6 +2,7 @@ package sitv.combiz.com.scratchitticketvalidation;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean menuHidden = true;
     HashMap<String, String> credentials = new HashMap<String, String>();
 
-
+    //Menu pressed handler
     public void menuPressed(View view) {
         if (menuHidden) {
             menuShow();
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Show top menu
     private void menuShow() {
         int translationYBy = 100;
         int duration = 100;
@@ -52,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Hide top menu
     private void menuHide(){
         int translationYBy = -100;
         btnAbout.setVisibility(View.INVISIBLE);
@@ -62,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         btnLogout.setTranslationY(translationYBy);
     }
 
+    //Add a unique user to the allowed user list
     private void credentialsAddUser (String user, String pass) {
         String userAddStatus = "";
         Log.i("Add User", "Attempting to add " + user + "/" + pass);
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Check if the specified username exists
     private Boolean credentialsCheckUsername (String user) {
         Boolean userExists = false;
         user = user.toLowerCase();
@@ -97,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         return userExists;
     }
 
+    //Check the username/password input
     private Boolean credentialsCheckPassword (String user, String pass) {
         String checkCredentials="";
         Boolean status = false;
@@ -119,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         return status;
     }
 
-
+    //Validate login form inputs
     public void checkForm(View view) {
         String username = txtUser.getText().toString();
         String password = txtPass.getText().toString();
@@ -136,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //Fill in demo credential list
     private void demoAddUsers() {
         credentialsAddUser("combiz","demo");
         credentialsAddUser("admin", "dasc");
@@ -210,4 +219,27 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
+
+
+    // Auto-updater functionality - TBD
+    private  class checkForUpdates extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            URL url;
+            HttpURLConnection httpURLConnection = null;
+            try {
+
+            } catch (Exception e) {
+                return null;
+            }
+            return null;
+        }
+    }
+
+    private void downloadUpdate() {
+
+    }
+
 }

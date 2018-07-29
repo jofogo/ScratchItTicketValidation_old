@@ -133,7 +133,7 @@ public class ValidationActivity extends AppCompatActivity {
             Toast.makeText(this, "Ticket code was already used!", Toast.LENGTH_SHORT).show();
         } else {
             ticketCodes.add(ticketCode);
-            Toast.makeText(this, "Ticket code: " + ticketCode + " was added.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Ticket " + ticketCode + " was added.", Toast.LENGTH_SHORT).show();
             txtTicketCount.setText("" + ticketCodes.size());
             txtTicketCode.setText("");
         }
@@ -145,7 +145,7 @@ public class ValidationActivity extends AppCompatActivity {
     public void ticketRemoveAll(View view) {
         new AlertDialog.Builder(this)
                 .setTitle("Remove all tickets")
-                .setMessage("Do you want to delete all scanned tickets?")
+                .setMessage("Do you want to delete all saved tickets?")
                 .setPositiveButton(
                         "Yes",
                         new DialogInterface.OnClickListener() {
