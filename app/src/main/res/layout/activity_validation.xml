@@ -177,5 +177,6 @@
         android:layout_below="@+id/tViewScanner"
         android:layout_marginTop="3dp"
         android:enabled="false"
+        android:onClick="ticketList"
         android:text="000" />
 </RelativeLayout>

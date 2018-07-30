@@ -211,6 +211,44 @@ public class ValidationActivity extends AppCompatActivity {
 
     }
 
+
+    public void ticketList(View view) {
+        final CharSequence[] arrayTickets = ticketCodes.toArray(new CharSequence[ticketCodes.size()]);
+
+        final ArrayList<Integer> listSelected = new ArrayList<Integer>();
+        new AlertDialog.Builder(this)
+                .setTitle("Remove saved tickets")
+                .setMultiChoiceItems(arrayTickets, null,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i, boolean b) {
+                                if (b) {
+                                    listSelected.add(i);
+                                } else if (listSelected.contains(i)) {
+                                    listSelected.remove(Integer.valueOf(i));
+                                }
+                            }
+                        })
+                .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        for ( int ctr = 0; ctr < listSelected.size(); ctr ++) {
+                            ticketCodes.remove(arrayTickets[listSelected.get(ctr)]);
+                        }
+                        setBtnTicketCountText(ticketCodes.size());
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                }).show();
+        listSelected.clear();
+
+    }
+
+
     public void ticketUpload(View view) {
 
     }
