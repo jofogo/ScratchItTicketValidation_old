@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -20,7 +19,6 @@ import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.BeepManager;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
-import com.journeyapps.barcodescanner.BarcodeView;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.DefaultDecoderFactory;
 
@@ -32,7 +30,7 @@ import java.util.List;
 public class ValidationActivity extends AppCompatActivity {
     ImageButton btnAdd;
     ImageButton btnUpload;
-    ImageButton btnRemove;
+    ImageButton btnTorch;
     EditText txtTicketCount;
     EditText txtTicketCode;
     ImageButton btnMenu;
@@ -40,6 +38,7 @@ public class ValidationActivity extends AppCompatActivity {
     ImageButton btnSettings;
     ImageButton btnLogout;
     Boolean menuHidden = true;
+    Button btnTicketCount;
     private DecoratedBarcodeView tViewScanner;
     private BeepManager beepManager;
     private String lastTicketCode="";
@@ -108,6 +107,16 @@ public class ValidationActivity extends AppCompatActivity {
         btnLogout.setTranslationY(translationYBy);
     }
 
+    private void setBtnTicketCountText(int count) {
+        String btnText = "";
+        try {
+            btnText = String.format("%03d", count);
+        } catch (NumberFormatException nfe) {
+            nfe.printStackTrace();
+            btnText = String.format("%03d", 0);
+        }
+        btnTicketCount.setText(btnText);
+    }
 
     //Add button pressed (manually add a ticketcode):
     //1. Check if null text is being added
@@ -134,7 +143,8 @@ public class ValidationActivity extends AppCompatActivity {
         } else {
             ticketCodes.add(ticketCode);
             Toast.makeText(this, "Ticket " + ticketCode + " was added.", Toast.LENGTH_SHORT).show();
-            txtTicketCount.setText("" + ticketCodes.size());
+            setBtnTicketCountText(ticketCodes.size());
+            //txtTicketCount.setText("" + ticketCodes.size());
             txtTicketCode.setText("");
         }
 
@@ -152,7 +162,9 @@ public class ValidationActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 ticketCodes.clear();
-                                txtTicketCount.setText("0");
+                                setBtnTicketCountText(0);
+                                //btnTicketCount.setText("0");
+                                //txtTicketCount.setText("0");
                                 lastTicketCode = "";
                             }
                         }
@@ -186,7 +198,8 @@ public class ValidationActivity extends AppCompatActivity {
     // 1. Logs out automatically if Ticket Count = 0
     // 2. Logs out after pop-up confirmation if Ticket Count > 0
     public void userLogout(View view) {
-        if (txtTicketCount.getText().toString().equals("0")) {
+        if (btnTicketCount.getText().toString().equals("0")) {
+       // if (txtTicketCount.getText().toString().equals("0")) {
             logout();
         } else {
             new AlertDialog.Builder(this)
@@ -252,10 +265,10 @@ public class ValidationActivity extends AppCompatActivity {
         //ValidationActivity main objects
         btnAdd = (ImageButton) findViewById(R.id.btnAdd);
         btnUpload = (ImageButton) findViewById(R.id.btnUpload);
-        btnRemove = (ImageButton) findViewById(R.id.btnRemove);
+        btnTorch = (ImageButton) findViewById(R.id.btnTorch);
         txtTicketCount = (EditText) findViewById(R.id.txtTicketCount);
         txtTicketCode = (EditText) findViewById(R.id.txtTicketCode);
-
+        btnTicketCount = (Button) findViewById(R.id.btnTicketCount);
         //Top menu buttons
         btnMenu = (ImageButton) findViewById(R.id.btnMenu);
         btnAbout = (ImageButton) findViewById(R.id.btnAbout);
@@ -277,7 +290,7 @@ public class ValidationActivity extends AppCompatActivity {
         //Initialize ValidationActivity button states
         btnAdd.setEnabled(false);
         btnUpload.setEnabled(false);
-        btnRemove.setEnabled(false);
+        btnTorch.setEnabled(false);
 
         //Listen for Ticket Code field changes
         txtTicketCode.addTextChangedListener(new TextWatcher() {
@@ -305,7 +318,10 @@ public class ValidationActivity extends AppCompatActivity {
         });
 
         //Listen for Ticket Count field changes
-        txtTicketCount.addTextChangedListener(new TextWatcher() {
+        btnTicketCount.addTextChangedListener(new TextWatcher() {
+
+
+        //txtTicketCount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -318,17 +334,20 @@ public class ValidationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if (txtTicketCount.getText().toString().equals("0")) {
+                if (btnTicketCount.getText().toString().equals("000")) {
+            //    if (txtTicketCount.getText().toString().equals("0")) {
                     btnUpload.setEnabled(false);
                     btnUpload.setImageResource(R.drawable.ico_disabled_upload);
-                    btnRemove.setEnabled(false);
-                    btnRemove.setImageResource(R.drawable.ico_disabled_remove);
+                    btnTorch.setEnabled(false);
+                    btnTorch.setImageResource(R.drawable.ico_disabled_torch);
+                    btnTicketCount.setEnabled(false);
 
                 } else {
                     btnUpload.setEnabled(true);
                     btnUpload.setImageResource(R.drawable.ico_enabled_upload);
-                    btnRemove.setEnabled(true);
-                    btnRemove.setImageResource(R.drawable.ico_enabled_remove);
+                    btnTorch.setEnabled(true);
+                    btnTorch.setImageResource(R.drawable.ico_enabled_torch);
+                    btnTicketCount.setEnabled(true);
 
                 }
             }

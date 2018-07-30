@@ -75,7 +75,9 @@
         android:layout_height="240dp"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
-        android:layout_marginTop="40dp" />
+        android:layout_marginTop="40dp" >
+
+    </com.journeyapps.barcodescanner.DecoratedBarcodeView>
 
     <View
         android:id="@+id/divider"
@@ -105,8 +107,8 @@
         android:ems="10"
         android:enabled="false"
         android:inputType="textPersonName"
-        android:text="0"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:visibility="invisible" />
 
     <EditText
         android:id="@+id/txtTicketCode"
@@ -154,7 +156,7 @@
             app:srcCompat="@drawable/ico_disabled_upload" />
 
         <ImageButton
-            android:id="@+id/btnRemove"
+            android:id="@+id/btnTorch"
             android:layout_width="106dp"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
@@ -164,6 +166,15 @@
             app:layout_column="2"
             app:layout_gravity="left|top"
             app:layout_row="0"
-            app:srcCompat="@drawable/ico_disabled_remove" />
+            app:srcCompat="@drawable/ico_disabled_torch" />
     </android.support.v7.widget.GridLayout>
+
+    <Button
+        android:id="@+id/btnTicketCount"
+        android:layout_width="wrap_content"
+        android:layout_height="39dp"
+        android:layout_alignStart="@+id/txtTicketCount"
+        android:layout_below="@+id/tViewScanner"
+        android:layout_marginTop="3dp"
+        android:text="000" />
 </RelativeLayout>
