@@ -160,7 +160,7 @@
             android:layout_width="106dp"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:onClick="ticketRemoveAll"
+            android:onClick="toggleTorch"
             android:padding="10dp"
             android:scaleType="fitCenter"
             app:layout_column="2"
@@ -176,5 +176,6 @@
         android:layout_alignStart="@+id/txtTicketCount"
         android:layout_below="@+id/tViewScanner"
         android:layout_marginTop="3dp"
+        android:enabled="false"
         android:text="000" />
 </RelativeLayout>

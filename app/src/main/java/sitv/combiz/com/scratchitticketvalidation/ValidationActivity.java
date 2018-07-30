@@ -38,7 +38,9 @@ public class ValidationActivity extends AppCompatActivity {
     ImageButton btnSettings;
     ImageButton btnLogout;
     Boolean menuHidden = true;
+    Boolean torchToggled = false;
     Button btnTicketCount;
+
     private DecoratedBarcodeView tViewScanner;
     private BeepManager beepManager;
     private String lastTicketCode="";
@@ -107,6 +109,7 @@ public class ValidationActivity extends AppCompatActivity {
         btnLogout.setTranslationY(translationYBy);
     }
 
+    //Formats the text for the Ticket Count button
     private void setBtnTicketCountText(int count) {
         String btnText = "";
         try {
@@ -150,6 +153,31 @@ public class ValidationActivity extends AppCompatActivity {
 
     }
 
+    //Torch handler
+    public void toggleTorch (View view) {
+
+        if (torchToggled) {
+            torchOff();
+        } else {
+            torchOn();
+        }
+    }
+
+    //Turn off the phone's torch
+    private void torchOff() {
+            tViewScanner.setTorchOff();
+            torchToggled = false;
+            btnTorch.setImageResource(R.drawable.ico_disabled_torch);
+
+    }
+
+    //Turn on the phone's torch
+    private void torchOn() {
+            tViewScanner.setTorchOn();
+            torchToggled = true;
+            btnTorch.setImageResource(R.drawable.ico_enabled_torch);
+
+    }
 
     //Remove all saved Ticket Codes (clears the array)
     public void ticketRemoveAll(View view) {
@@ -290,7 +318,6 @@ public class ValidationActivity extends AppCompatActivity {
         //Initialize ValidationActivity button states
         btnAdd.setEnabled(false);
         btnUpload.setEnabled(false);
-        btnTorch.setEnabled(false);
 
         //Listen for Ticket Code field changes
         txtTicketCode.addTextChangedListener(new TextWatcher() {
@@ -338,15 +365,12 @@ public class ValidationActivity extends AppCompatActivity {
             //    if (txtTicketCount.getText().toString().equals("0")) {
                     btnUpload.setEnabled(false);
                     btnUpload.setImageResource(R.drawable.ico_disabled_upload);
-                    btnTorch.setEnabled(false);
-                    btnTorch.setImageResource(R.drawable.ico_disabled_torch);
                     btnTicketCount.setEnabled(false);
 
                 } else {
                     btnUpload.setEnabled(true);
                     btnUpload.setImageResource(R.drawable.ico_enabled_upload);
-                    btnTorch.setEnabled(true);
-                    btnTorch.setImageResource(R.drawable.ico_enabled_torch);
+
                     btnTicketCount.setEnabled(true);
 
                 }
