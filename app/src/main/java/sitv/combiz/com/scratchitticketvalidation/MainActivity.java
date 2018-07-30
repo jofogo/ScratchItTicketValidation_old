@@ -1,8 +1,12 @@
 package sitv.combiz.com.scratchitticketvalidation;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     Boolean menuHidden = true;
     HashMap<String, String> credentials = new HashMap<String, String>();
 
+    private final static int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     //Menu pressed handler
     public void menuPressed(View view) {
         if (menuHidden) {
@@ -154,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkPermissions();
         demoAddUsers();
         txtUser = (EditText) findViewById(R.id.txtUser);
         txtPass = (EditText) findViewById(R.id.txtPass);
@@ -220,7 +226,31 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void checkPermissions() {
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA
+                ) != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
+
+                // MY_PERMISSIONS_REQUEST_CAMERA is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
+    }
 
     // Auto-updater functionality - TBD
     private  class checkForUpdates extends AsyncTask<String, Void, String> {
