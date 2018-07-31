@@ -118,7 +118,8 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:hint="Ticket code"
-        android:inputType="textPersonName"
+        android:inputType="number"
+
         android:textAlignment="center" />
 
     <android.support.v7.widget.GridLayout

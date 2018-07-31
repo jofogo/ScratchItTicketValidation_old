@@ -139,8 +139,8 @@ public class ValidationActivity extends AppCompatActivity {
     // - Ticket code should not be a duplicate
     //2. Automatically adds a ticket code if added using the scanner
     private void addTicket(String ticketCode) {
-        if (ticketCode.length() < ticketCodeLength) {
-            Toast.makeText(this, "Ticket code should be at least " +ticketCodeLength+ " characters!", Toast.LENGTH_SHORT).show();
+        if (ticketCode.length() != ticketCodeLength) {
+            Toast.makeText(this, "Ticket code should be " +ticketCodeLength+ " digits!", Toast.LENGTH_SHORT).show();
         } else if (ticketCodes.contains(ticketCode)) {
             Toast.makeText(this, "Ticket code was already used!", Toast.LENGTH_SHORT).show();
         } else {
