@@ -2,6 +2,7 @@ package sitv.combiz.com.scratchitticketvalidation;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.ResultPoint;
-import com.google.zxing.client.android.BeepManager;
 import com.journeyapps.barcodescanner.BarcodeCallback;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
@@ -42,7 +42,6 @@ public class ValidationActivity extends AppCompatActivity {
     Button btnTicketCount;
 
     private DecoratedBarcodeView tViewScanner;
-    private BeepManager beepManager;
     private String lastTicketCode="";
     private DefaultDecoderFactory defaultDecoderFactory;
 
@@ -50,6 +49,26 @@ public class ValidationActivity extends AppCompatActivity {
 
     ArrayList<String> ticketCodes = new ArrayList<String>();
     private final int ticketCodeLength = 22;
+
+    private void playBeep(int status) {
+        MediaPlayer mediaPlayer = new MediaPlayer();
+
+        if (status == 0) {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beep_ok);
+
+        } else {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beep_error);
+
+        }
+
+        try {
+            mediaPlayer.start();
+        } catch (Exception e) {
+            mediaPlayer.release();
+        }
+
+    }
+
 
 
     private BarcodeCallback callback = new BarcodeCallback() {
@@ -63,7 +82,6 @@ public class ValidationActivity extends AppCompatActivity {
             addTicket(lastTicketCode);
             //tViewScanner.setStatusText(lastTicketCode);
             //txtTicketCode.setText(lastTicketCode);
-            beepManager.playBeepSoundAndVibrate();
 
         }
 
@@ -140,11 +158,21 @@ public class ValidationActivity extends AppCompatActivity {
     //2. Automatically adds a ticket code if added using the scanner
     private void addTicket(String ticketCode) {
         if (ticketCode.length() != ticketCodeLength) {
+            playBeep(1);
             Toast.makeText(this, "Ticket code should be " +ticketCodeLength+ " digits!", Toast.LENGTH_SHORT).show();
         } else if (ticketCodes.contains(ticketCode)) {
+            playBeep(1);
             Toast.makeText(this, "Ticket code was already used!", Toast.LENGTH_SHORT).show();
         } else {
             ticketCodes.add(ticketCode);
+            playBeep(0);
+            try {
+                Thread.sleep(75);
+
+            } catch (InterruptedException ie) {
+
+            }
+            playBeep(0);
             Toast.makeText(this, "Ticket " + ticketCode + " was added.", Toast.LENGTH_SHORT).show();
             setBtnTicketCountText(ticketCodes.size());
             //txtTicketCount.setText("" + ticketCodes.size());
@@ -348,7 +376,6 @@ public class ValidationActivity extends AppCompatActivity {
         //tViewScanner.getBarcodeView().setDecoderFactory(new DefaultDecoderFactory(codeFormats));
 
         tViewScanner.decodeContinuous(callback);
-        beepManager = new BeepManager(this);
 
         //Hide the top menu initially
         menuHide();
