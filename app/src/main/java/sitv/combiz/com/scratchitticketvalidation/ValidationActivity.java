@@ -167,7 +167,7 @@ public class ValidationActivity extends AppCompatActivity {
             ticketCodes.add(ticketCode);
             playBeep(0);
             try {
-                Thread.sleep(75);
+                Thread.sleep(50);
 
             } catch (InterruptedException ie) {
 
