@@ -56,6 +56,9 @@ public class ValidationActivity extends AppCompatActivity {
         if (status == 0) {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beep_ok);
 
+        } else if (status == 1) {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beep_duplicate);
+
         } else {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beep_error);
 
@@ -158,7 +161,7 @@ public class ValidationActivity extends AppCompatActivity {
     //2. Automatically adds a ticket code if added using the scanner
     private void addTicket(String ticketCode) {
         if (ticketCode.length() != ticketCodeLength) {
-            playBeep(1);
+            playBeep(99);
             Toast.makeText(this, "Ticket code should be " +ticketCodeLength+ " digits!", Toast.LENGTH_SHORT).show();
         } else if (ticketCodes.contains(ticketCode)) {
             playBeep(1);
@@ -166,13 +169,7 @@ public class ValidationActivity extends AppCompatActivity {
         } else {
             ticketCodes.add(ticketCode);
             playBeep(0);
-            try {
-                Thread.sleep(50);
 
-            } catch (InterruptedException ie) {
-
-            }
-            playBeep(0);
             Toast.makeText(this, "Ticket " + ticketCode + " was added.", Toast.LENGTH_SHORT).show();
             setBtnTicketCountText(ticketCodes.size());
             //txtTicketCount.setText("" + ticketCodes.size());
