@@ -2,6 +2,7 @@ package sitv.combiz.com.scratchitticketvalidation;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +46,7 @@ public class ValidationActivity extends AppCompatActivity {
     private String lastTicketCode="";
     private DefaultDecoderFactory defaultDecoderFactory;
 
+    AudioManager audioManager;
 
 
     ArrayList<String> ticketCodes = new ArrayList<String>();
@@ -52,6 +54,7 @@ public class ValidationActivity extends AppCompatActivity {
 
     private void playBeep(int status) {
         MediaPlayer mediaPlayer = new MediaPlayer();
+
 
         if (status == 0) {
             mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.beep_ok);
@@ -380,6 +383,17 @@ public class ValidationActivity extends AppCompatActivity {
         //Initialize ValidationActivity button states
         btnAdd.setEnabled(false);
         btnUpload.setEnabled(false);
+
+        //Set the app's volume
+        audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+        int maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+        int currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        int upperLimitVolume = maxVolume - 3;
+        if (currentVolume < upperLimitVolume) {
+            audioManager.setStreamVolume(AudioManager.STREAM_MUSIC, upperLimitVolume, 0);
+        }
+
+
 
         //Listen for Ticket Code field changes
         txtTicketCode.addTextChangedListener(new TextWatcher() {

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     Boolean menuHidden = true;
     HashMap<String, String> credentials = new HashMap<String, String>();
     private View mLayout;
+
+    AudioManager audioManager;
+    int maxVolume;
 
     private final static int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     //Menu pressed handler
@@ -177,6 +181,8 @@ public class MainActivity extends AppCompatActivity {
         btnLogout = (ImageButton) findViewById(R.id.btnLogout);
 
         menuHide();
+
+
 
         txtUser.requestFocus();
         txtPass.setEnabled(false);
