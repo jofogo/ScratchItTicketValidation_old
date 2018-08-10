@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Scratch It Ticket Validation</string>
+    <string name="dev_name">Combiz Essential Solutions Corporation\n© 2018</string>
+    <string name="cd_icoMenu">Menu</string>
+    <string name="cd_icoAbout">About</string>
+    <string name="cd_icoLogout">Logout</string>
+    <string name="cd_icoSettings">Settings</string>
+
 </resources>

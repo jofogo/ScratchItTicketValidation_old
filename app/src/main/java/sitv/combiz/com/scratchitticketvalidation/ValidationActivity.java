@@ -1,19 +1,28 @@
 package sitv.combiz.com.scratchitticketvalidation;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -97,41 +106,6 @@ public class ValidationActivity extends AppCompatActivity {
         }
     };
 
-    //Menu pressed handler
-    public void menuPressed(View view) {
-        if (menuHidden) {
-            menuShow();
-            menuHidden=false;
-        } else {
-            menuHide();
-            menuHidden=true;
-        }
-
-    }
-
-    //Shows the top menu
-    private void menuShow() {
-        int translationYBy = 100;
-        int duration = 100;
-        btnAbout.setVisibility(View.VISIBLE);
-        btnAbout.animate().translationYBy(translationYBy).setDuration(duration);
-        btnSettings.setVisibility(View.VISIBLE);
-        btnSettings.animate().translationYBy(translationYBy).setDuration(duration+50);
-        btnLogout.animate().translationYBy(translationYBy).setDuration(duration+100);
-        btnLogout.setVisibility(View.VISIBLE);
-
-    }
-
-    //Hides the top menu
-    private void menuHide(){
-        int translationYBy = -100;
-        btnAbout.setVisibility(View.INVISIBLE);
-        btnAbout.setTranslationY(translationYBy);
-        btnSettings.setVisibility(View.INVISIBLE);
-        btnSettings.setTranslationY(translationYBy);
-        btnLogout.setVisibility(View.INVISIBLE);
-        btnLogout.setTranslationY(translationYBy);
-    }
 
     //Formats the text for the Ticket Count button
     private void setBtnTicketCountText(int count) {
@@ -292,7 +266,7 @@ public class ValidationActivity extends AppCompatActivity {
     // 1. Logs out automatically if Ticket Count = 0
     // 2. Logs out after pop-up confirmation if Ticket Count > 0
     public void userLogout(View view) {
-        if (btnTicketCount.getText().toString().equals("0")) {
+        if (btnTicketCount.getText().toString().equals("000")) {
        // if (txtTicketCount.getText().toString().equals("0")) {
             logout();
         } else {
@@ -363,11 +337,6 @@ public class ValidationActivity extends AppCompatActivity {
         txtTicketCount = (EditText) findViewById(R.id.txtTicketCount);
         txtTicketCode = (EditText) findViewById(R.id.txtTicketCode);
         btnTicketCount = (Button) findViewById(R.id.btnTicketCount);
-        //Top menu buttons
-        btnMenu = (ImageButton) findViewById(R.id.btnMenu);
-        btnAbout = (ImageButton) findViewById(R.id.btnAbout);
-        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
-        btnLogout = (ImageButton) findViewById(R.id.btnLogout);
 
 
         //Barcode scanner
@@ -376,9 +345,6 @@ public class ValidationActivity extends AppCompatActivity {
         //tViewScanner.getBarcodeView().setDecoderFactory(new DefaultDecoderFactory(codeFormats));
 
         tViewScanner.decodeContinuous(callback);
-
-        //Hide the top menu initially
-        menuHide();
 
         //Initialize ValidationActivity button states
         btnAdd.setEnabled(false);
@@ -453,5 +419,45 @@ public class ValidationActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //Menu launcher
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_loggedin, menu);
+        return true;
+    }
+
+    //Menu handler
+    @SuppressLint("MissingPermission")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+
+                try {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    TextView myMsg = new TextView(this);
+                    myMsg.setText("V " + getPackageManager().getPackageInfo(getPackageName(),0).versionName  + "\n" +
+                            "IMEI: " + telephonyManager.getDeviceId() + "\n"
+                            + getResources().getString(R.string.dev_name));
+                    myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
+                    builder.setTitle(getResources().getString(R.string.app_name))
+                            .setView(myMsg)
+                            .show();
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.menu_logout:
+                userLogout(btnLogout);
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 }

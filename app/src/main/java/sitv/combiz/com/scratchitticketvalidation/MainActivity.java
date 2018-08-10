@@ -1,6 +1,8 @@
 package sitv.combiz.com.scratchitticketvalidation;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -12,74 +14,44 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     EditText txtUser;
     EditText txtPass;
     Button btnLogin;
-    ImageButton btnMenu;
-    ImageButton btnAbout;
-    ImageButton btnSettings;
-    ImageButton btnLogout;
     Boolean userLoggedIn = false;
-    Boolean menuHidden = true;
+
     HashMap<String, String> credentials = new HashMap<String, String>();
     private View mLayout;
 
     AudioManager audioManager;
     int maxVolume;
 
-    private final static int MY_PERMISSIONS_REQUEST_CAMERA = 1;
-    //Menu pressed handler
-    public void menuPressed(View view) {
-        if (menuHidden) {
-            menuShow();
-            menuHidden=false;
-        } else {
-            menuHide();
-            menuHidden=true;
-        }
+    private final static int MY_PERMISSIONS_REQUEST_NECESSARY= 1;
 
-    }
-
-    //Show top menu
-    private void menuShow() {
-        int translationYBy = 100;
-        int duration = 100;
-        btnAbout.setVisibility(View.VISIBLE);
-        btnAbout.animate().translationYBy(translationYBy).setDuration(duration);
-        btnSettings.setVisibility(View.VISIBLE);
-        btnSettings.animate().translationYBy(translationYBy).setDuration(duration+50);
-        btnLogout.animate().translationYBy(translationYBy).setDuration(duration+100);
-        //btnLogout.setVisibility(View.VISIBLE);
-
-    }
-
-    //Hide top menu
-    private void menuHide(){
-        int translationYBy = -100;
-        btnAbout.setVisibility(View.INVISIBLE);
-        btnAbout.setTranslationY(translationYBy);
-        btnSettings.setVisibility(View.INVISIBLE);
-        btnSettings.setTranslationY(translationYBy);
-        btnLogout.setVisibility(View.INVISIBLE);
-        btnLogout.setTranslationY(translationYBy);
-    }
 
     //Add a unique user to the allowed user list
     private void credentialsAddUser (String user, String pass) {
@@ -169,18 +141,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mLayout = findViewById(R.id.mainLayout);
-        checkPermissions();
+        checkAndRequestPermissions();
         demoAddUsers();
         txtUser = (EditText) findViewById(R.id.txtUser);
         txtPass = (EditText) findViewById(R.id.txtPass);
         btnLogin = (Button) findViewById(R.id.btnLogin);
-
-        btnMenu = (ImageButton) findViewById(R.id.btnMenu);
-        btnAbout = (ImageButton) findViewById(R.id.btnAbout);
-        btnSettings = (ImageButton) findViewById(R.id.btnSettings);
-        btnLogout = (ImageButton) findViewById(R.id.btnLogout);
-
-        menuHide();
 
 
 
@@ -238,52 +203,91 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void closeApp() {
-        finishAffinity();
-/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            finishAffinity();
-        } else {
-            finish();
-        }*/
+    //Menu launcher
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_loggedout, menu);
+        return true;
     }
 
-    private void requestPermissionCamera() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                Manifest.permission.CAMERA)) {
-            Snackbar.make(mLayout, "Camera permission is needed for the ticket scanner to work.",
-                    Snackbar.LENGTH_INDEFINITE)
-                    .setAction("OK", new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.CAMERA},
-                                    MY_PERMISSIONS_REQUEST_CAMERA);
-                        }
-                    })
-                    .show();
-        } else {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
-                    MY_PERMISSIONS_REQUEST_CAMERA);
+    //Menu handler
+    @SuppressLint("MissingPermission")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_about:
+                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+
+                try {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    TextView myMsg = new TextView(this);
+                    myMsg.setText("V " + getPackageManager().getPackageInfo(getPackageName(),0).versionName  + "\n" +
+                            "IMEI: " + telephonyManager.getDeviceId() + "\n"
+                            + getResources().getString(R.string.dev_name));
+                    myMsg.setGravity(Gravity.CENTER_HORIZONTAL);
+                    builder.setTitle(getResources().getString(R.string.app_name))
+                            .setView(myMsg)
+                            .show();
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case R.id.menu_settings:
+                Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+                break;
+            default:
+                break;
         }
+        return true;
     }
 
-    private void checkPermissions() {
-        requestPermissionCamera();
+
+    private boolean checkAndRequestPermissions() {
+        int permissionCAMERA = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA);
+        int permissionPHONESTATE = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_PHONE_STATE);
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (permissionPHONESTATE != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_PHONE_STATE);
+        }
+        if (permissionCAMERA != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(this,
+                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MY_PERMISSIONS_REQUEST_NECESSARY);
+            return false;
+        }
+
+        return true;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MY_PERMISSIONS_REQUEST_CAMERA) {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_NECESSARY:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-            } else {
-                closeApp();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                    //Permission Granted Successfully. Write working code here.
+                } else {
+
+                    quitApp();
+                }
+                break;
         }
     }
+
+    private void quitApp() {
+
+        finishAffinity();
+    }
+
+
+
 
     // Auto-updater functionality - TBD
     private  class checkForUpdates extends AsyncTask<String, Void, String> {

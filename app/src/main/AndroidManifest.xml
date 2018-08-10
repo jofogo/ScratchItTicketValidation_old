@@ -3,6 +3,7 @@
     package="sitv.combiz.com.scratchitticketvalidation">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <uses-feature
         android:name="android.hardware.camera"

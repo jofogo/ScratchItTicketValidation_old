@@ -6,76 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".ValidationActivity">
 
-    <android.support.v7.widget.GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/menu_top"
-        app:columnCount="4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/btnMenu"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:onClick="menuPressed"
-            android:padding="8dp"
-            android:scaleType="fitCenter"
-            app:layout_column="3"
-            app:layout_gravity="center|right"
-            app:layout_row="0"
-            app:srcCompat="@drawable/ico_menu" />
-
-        <ImageButton
-            android:id="@+id/btnAbout"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
-            android:visibility="invisible"
-            app:layout_column="0"
-            app:layout_gravity="center|right"
-            app:layout_row="0"
-            app:srcCompat="@drawable/ico_about" />
-
-        <ImageButton
-            android:id="@+id/btnSettings"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
-            android:visibility="invisible"
-            app:layout_column="1"
-            app:layout_gravity="right|center"
-            app:layout_row="0"
-            app:srcCompat="@drawable/ico_settings" />
-
-        <ImageButton
-            android:id="@+id/btnLogout"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:background="@android:color/transparent"
-            android:onClick="userLogout"
-            android:padding="5dp"
-            android:scaleType="fitCenter"
-            android:visibility="invisible"
-            app:layout_column="2"
-            app:layout_row="0"
-            app:srcCompat="@drawable/ico_logout" />
-
-    </android.support.v7.widget.GridLayout>
-
     <com.journeyapps.barcodescanner.DecoratedBarcodeView
         android:id="@+id/tViewScanner"
         android:layout_width="318dp"
         android:layout_height="240dp"
         android:layout_marginLeft="1dp"
         android:layout_marginRight="1dp"
-        android:layout_marginTop="40dp" >
+        android:layout_marginTop="20dp">
 
     </com.journeyapps.barcodescanner.DecoratedBarcodeView>
 
@@ -127,7 +64,7 @@
         android:layout_height="59dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="20dp"
         app:columnCount="3"
         app:rowCount="1">
 
